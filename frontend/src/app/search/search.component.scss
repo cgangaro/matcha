@@ -1,0 +1,211 @@
+@import '../app.component.scss';
+
+.searchCard {
+    width: 85vw;
+    height: auto;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 5px 5px 15px rgba(70, 70, 70, 0.12), -1px -1px 50px rgba(70, 70, 70, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $primary;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    .searchHeader {
+        width: 90vw;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        mat-pseudo-checkbox {
+            width: 10px;
+        }
+
+        mat-checkbox ::ng-deep .mat-checkbox-inner-container {
+            width: 30px;
+            height: 30px;
+        }
+
+        .dropdownList {
+            margin-right: 0.3rem;
+            width: fit-content;
+        }
+    }
+
+    #searchButton {
+        font-size: 2rem;
+        font-weight: 600;
+        padding: 1.6rem;
+        border-radius: 20px;
+    }
+
+    .searchResultDiv {
+        width: 80%;
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: center;
+
+        .searchResultLoadingDiv {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+
+            p {
+                font-size: 1.5rem;
+                font-weight: 500;
+                color: $surface;
+            }
+        }
+
+        .searchResultErrorDiv {
+            p {
+                font-size: 1.5rem;
+                font-weight: 500;
+                color: $surface;
+            }
+        }
+
+        .searchResultSuccessDiv {
+            width: 800px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+
+            p {
+                background-color: $surface;
+                color: $onSurface;
+                font-size: 2.2rem;
+                font-weight: 600;
+                padding-left: 2rem;
+                padding-right: 2rem;
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+                border-radius: 13px 13px 0 0;
+                margin-bottom: 0;
+            }
+
+            .searchResultList {
+                width: 400px;
+                height: 400px;
+                overflow-y: scroll;
+                border: 5px $surface solid;
+                border-radius: 12px;
+
+                mat-list-item {
+                    background-color: $surface;
+                    color: $onSurface;
+                    border-radius: 20px;
+                    cursor: pointer;
+
+                    .mdc-list-item__primary-text {
+                        color: $onSurface;
+                    }
+
+                    .mdc-list-item__secondary-text {
+                        color: $onSurface;
+                    }
+                }
+            }
+
+            .dropdownDiv {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                margin-top: 2rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 789px) and (max-width: 1024px) {
+    .searchCard {
+        width: 90vw;
+
+        .searchHeader {
+            width: 90vw;
+            align-items: start;
+
+            .dropdownList {
+                margin-right: 0.3rem;
+                width: 20vw;
+            }
+
+        }
+
+        .searchResultDiv {
+            width: 90vw;
+
+            .searchResultSuccessDiv {
+                width: 90%;
+
+                .searchResultList {
+                    width: 100%;
+                }
+
+                .dropdownDiv {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 0px) and (max-width: 786px) {
+    .searchCard {
+        width: 80vw;
+
+        .searchHeader {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .dropdownList {
+                margin-right: 0;
+                width: 40vw;
+            }
+        }
+
+        #searchButton {
+            font-size: 1.5rem;
+            padding: 1rem;
+        }
+
+        .searchResultDiv {
+            width: 95%;
+
+            .searchResultLoadingDiv {
+                margin-top: 1rem;
+            }
+
+            .searchResultSuccessDiv {
+                width: 90%;
+
+                .searchResultList {
+                    width: 100%;
+                }
+
+                .dropdownDiv {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+
+                    .dropdownList {
+                        width: 40vw !important;
+                    }
+                }
+            }
+        }
+    }
+}

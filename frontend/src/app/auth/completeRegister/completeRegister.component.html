@@ -1,0 +1,72 @@
+<div class="centerDiv">
+    <div class="formCard">
+        <p class="title">Complete Register</p>
+        <form (ngSubmit)="onSubmit()" [formGroup]="completeRegisterForm">
+            <div class="radioButtonsDiv">
+                <mat-label>Gender</mat-label>
+                <mat-radio-group formControlName="gender">
+                    <mat-radio-button value="male">Male</mat-radio-button>
+                    <mat-radio-button value="female">Female</mat-radio-button>
+                    <mat-radio-button value="non-binary">Non-binary</mat-radio-button>
+                    <mat-radio-button value="other">Other</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="checkBoxDiv">
+                <mat-label>Sexual preferences</mat-label>
+                <div class="checkBoxGroup">
+                    <mat-checkbox formControlName="maleSexualPreference"
+                        (change)="sexualPreferenceChange()">Male</mat-checkbox>
+                    <mat-checkbox formControlName="femaleSexualPreference"
+                        (change)="sexualPreferenceChange()">Female</mat-checkbox>
+                    <mat-checkbox formControlName="nonBinarySexualPreference"
+                        (change)="sexualPreferenceChange()">Non-binary</mat-checkbox>
+                    <mat-checkbox formControlName="otherSexualPreference"
+                        (change)="sexualPreferenceChange()">Other</mat-checkbox>
+                </div>
+            </div>
+            <mat-form-field class="form-field" hideRequiredMarker>
+                <mat-label>Biography</mat-label>
+                <textarea id="biography" formControlName="biography" maxlength="400" matInput></textarea>
+            </mat-form-field>
+            <div class="inputDiv">
+                <label for="inputPictures">Choose your pictures !</label>
+                <input id="inputPictures" type="file" class="fileInput" multiple (change)="onChangeFileInput($event)"
+                    accept=".png, .jpeg, .jpg" />
+            </div>
+            <div class="tagsDiv">
+                <mat-label>Available tags</mat-label>
+                <div class="tagsAvailable">
+                    <span *ngFor="let tag of availableTags" (click)="addTag(tag)">{{tag}}</span>
+                    <p class="tagsInfos" *ngIf="availableTags.length <= 0">All tags are selected!</p>
+                </div>
+                <div class="tagsInput">
+                    <mat-form-field class="form-field" hideRequiredMarker>
+                        <input matInput [matAutocomplete]="auto" formControlName="newTag" maxlength="20" placeholder="Add your own tag" />
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">{{ tag }}</mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <button class="tagsInputButton" mat-button matSuffix (click)="addCustomTag($event)">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+                <mat-label>Your Tags</mat-label>
+                <div class="tagsSelected">
+                    <div class="tagSelected" *ngFor="let tag of selectedTags">
+                        <button mat-fab (click)="removeTag(tag)">
+                            <mat-icon>remove</mat-icon>
+                        </button>
+                        <p>{{tag}}</p>
+                    </div>
+                    <p class="tagsInfos" *ngIf="selectedTags.length <= 0">Select tags above!</p>
+                </div>
+            </div>
+            <div id="imageGalleryRegister">
+                <img *ngFor="let image of files" [src]="image" alt="Image">
+            </div>
+            <button type="submit" [disabled]="completeRegisterForm.invalid" mat-raised-button>Register</button>
+        </form>
+
+    </div>
+
+</div>

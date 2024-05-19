@@ -1,0 +1,89 @@
+<div class="centerDiv">
+    <div class="searchCard">
+        <div class="searchHeader">
+            <div class="dropdownList">
+                <mat-form-field class="dropdownList" color="primary" appearance="outline">
+                    <mat-label>Age</mat-label>
+                    <mat-select (selectionChange)="ageChange()" [formControl]="ageGapFormControl" multiple>
+                        <mat-option *ngFor="let age of ageGapValue" [value]="age">
+                            {{age}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="dropdownList">
+                <mat-form-field class="dropdownList" color="primary" appearance="outline">
+                    <mat-label>Fame rating</mat-label>
+                    <mat-select (selectionChange)="fameRatingChange()" [formControl]="fameRatingGapFormControl" multiple>
+                        <mat-option *ngFor="let fameRating of fameRatingGapValue" [value]="fameRating">
+                            {{fameRating}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="dropdownList">
+                <mat-form-field class="dropdownList" color="primary" appearance="outline">
+                    <mat-label>Location</mat-label>
+                    <mat-select (selectionChange)="locationChange()" [formControl]="locationFormControl" multiple>
+                        <mat-option *ngFor="let location of locationValue" [value]="location">
+                            {{location}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="dropdownList">
+                <mat-form-field class="dropdownList" color="primary" appearance="outline">
+                    <mat-label>Tags</mat-label>
+                    <mat-select (selectionChange)="tagChange()" [formControl]="tagFormControl" multiple>
+                        <mat-option *ngFor="let tag of availableTagsValue" [value]="tag">
+                            {{tag}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <button mat-button class="primaryButton" id="searchButton" (click)="search()">Search</button>
+        <div class="searchResultDiv">
+            <div class="searchResultSuccessDiv" *ngIf="success">
+                <p>Result</p>
+                <div class="searchResultList">
+                    <mat-list *ngFor="let element of resultList">
+                        <mat-list-item (click)="goToProfile(element)">
+                            <div matListItemTitle>{{element.username}} - {{element.first_name}} {{element.last_name}} - {{element.fame_rating}}pts</div>
+                            <div matListItemLine>{{element.age}} years - {{element.city}} - {{element.tags}}</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <div class="dropdownDiv">
+                    <div class="dropdownList">
+                        <mat-form-field class="dropdownList" color="primary" appearance="outline">
+                            <mat-label>Sort by</mat-label>
+                            <mat-select (selectionChange)="sortOrFilterChange()" [(ngModel)]="sortSelected">
+                                <mat-option *ngFor="let sort of sortType" [value]="sort">
+                                    {{sort}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="dropdownList">
+                        <mat-form-field class="dropdownList" color="primary" appearance="outline">
+                            <mat-label>Filter by</mat-label>
+                            <mat-select (selectionChange)="sortOrFilterChange()" [(ngModel)]="filterSelected">
+                                <mat-option *ngFor="let filter of filterType" [value]="filter">
+                                    {{filter}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="searchResultLoadingDiv" *ngIf="loading">
+                <p>Loading</p>
+                <mat-progress-bar mode="query"></mat-progress-bar>
+            </div>
+            <div class="searchResultErrorDiv" *ngIf="error">
+                <p>{{textError}}</p>
+            </div>
+        </div>
+    </div>
+</div>

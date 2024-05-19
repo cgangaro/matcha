@@ -1,0 +1,97 @@
+<div class="centerDiv">
+    <div class="profileCard" *ngIf="!loading && !error && !displayList">
+        <div class="carouselDiv">
+            <app-carousel [images]="img" [title]="userInfos.username"></app-carousel>
+        </div>
+        <div class="mainDivProfil" id="mainDivPersonnal" *ngIf="personalProfil">
+            <p id="nameAge">{{userInfos.first_name}} {{userInfos.last_name}} - {{userInfos.age}} years</p>
+        </div>
+        <div class="mainDivProfil" id="mainDivPublic" *ngIf="!personalProfil">
+            <button mat-fab [disabled]="you_blocked_he || he_blocked_you" color="primary" aria-label="Like"
+                (click)="like()" ng-disabled="likeWaiting">
+                <mat-icon>{{likeIcon}}</mat-icon>
+            </button>
+            <p id="nameAge">{{userInfos.first_name}} {{userInfos.last_name}} - {{userInfos.age}} years</p>
+            <button mat-fab [disabled]="!match || you_blocked_he || he_blocked_you" color="primary" aria-label="Chat"
+                [routerLink]="['../../chat']">
+                <mat-icon>chat</mat-icon>
+            </button>
+        </div>
+        <div id="detailsDiv">
+            <p>Gender: {{userInfos.gender}}</p>
+            <p>{{userInfos.sexual_preferences.length > 1 ? 'Sexual preferences:' : 'Sexual preference:'}}
+                {{userInfos.sexual_preferences.join(', ')}}</p>
+            <p>Location: {{userInfos.city}}</p>
+        </div>
+        <p id="biography">{{userInfos.biography}}</p>
+
+        <div class="tagsDiv">
+            <div class="tagsAvailable">
+                <span *ngFor="let tag of userInfos.tags">{{tag}}</span>
+            </div>
+        </div>
+        <div class="fameRatingDiv">
+            <p>Fame rating: {{fameRating}}</p>
+        </div>
+        <div class="blockAndReportDiv" *ngIf="!personalProfil">
+            <button mat-button (click)="block()">
+                {{blockButtonMessage}}
+            </button>
+            <div class="profilStatus" *ngIf="status=='Offline'">
+                <div class="firstDivStatus">
+                    <div class="offlineStatus">
+                    </div>
+                    <p>
+                        {{status}} since &nbsp;
+                    </p>
+                </div>
+                <p>
+                    {{ lastConnection | date: 'dd/MM/yyyy - HH:mm' }}
+                </p>
+            </div>
+            <div class="profilStatus" *ngIf="status=='Online'">
+                <div class="firstDivStatus">
+                    <div class="onlineStatus">
+                    </div>
+                    <p>
+                        {{status}}
+                    </p>
+                </div>
+            </div>
+            <button mat-button (click)="report()">
+                {{reportButtonMessage}}
+            </button>
+        </div>
+        <div class="viewsLikesListsButtonDiv" *ngIf="personalProfil">
+            <button mat-button (click)="openList(1)">
+                Profile views
+            </button>
+            <button mat-button (click)="openList(2)">
+                Profile likes
+            </button>
+        </div>
+    </div>
+    <div class="listCard" *ngIf="displayList && !loading && !error">
+        <div class="listCardHeader">
+            <button mat-icon-button aria-label="Back" (click)="backArrow()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <p>{{displayListTitle}}</p>
+        </div>
+        <div class="listCardList">
+            <mat-list *ngFor="let element of list">
+                <mat-list-item>
+                    <span matListItemTitle>{{element.authorUsername}}</span>
+                    <span matListItemLine>{{element.authorFirstName}} {{element.authorLastName}}</span>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+    <div class="errorCard" *ngIf="error">
+        <p>User not found</p>
+    </div>
+    <div class="loadingCard" *ngIf="loading && !error">
+        <p>Loading</p>
+        <mat-progress-bar mode="query"></mat-progress-bar>
+    </div>
+</div>

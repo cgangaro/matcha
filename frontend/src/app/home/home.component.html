@@ -1,0 +1,49 @@
+<div class="centerDiv" *ngIf="!notConnected">
+    <div class="profileCard" *ngIf="!loading && !error">
+        <div class="carouselDiv">
+            <app-carousel [images]="img" [title]="userDisplayed.username"></app-carousel>
+        </div>
+        <div class="mainDivProfil">
+            <p id="nameAge">{{userDisplayed.first_name}} {{userDisplayed.last_name}} - {{userDisplayed.age}} years</p>
+        </div>
+        <div class="homeButtonAction">
+            <button mat-button [routerLink]="['profile/' + userDisplayed.username]">Profile</button>
+            <button mat-button disabled>Fame rating: {{userDisplayed.fame_rating}}</button>
+            <button mat-button (click)="newUserGenerate()">Next</button>
+        </div>
+        <div class="dropdownDiv">
+            <div class="dropdownList">
+                <mat-form-field class="dropdownList" color="primary" appearance="outline">
+                    <mat-label>Sort by</mat-label>
+                    <mat-select (selectionChange)="sortOrFilterChange()" [(ngModel)]="sortSelected">
+                        <mat-option *ngFor="let sort of sortType" [value]="sort">
+                            {{sort}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="dropdownList">
+                <mat-form-field class="dropdownList" color="primary" appearance="outline">
+                    <mat-label>Filter by</mat-label>
+                    <mat-select (selectionChange)="sortOrFilterChange()" [(ngModel)]="filterSelected">
+                        <mat-option *ngFor="let filter of filterType" [value]="filter">
+                            {{filter}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="errorCard" *ngIf="error">
+        <p>User not found</p>
+    </div>
+    <div class="loadingCard" *ngIf="loading && !error">
+        <p>Loading</p>
+        <mat-progress-bar mode="query"></mat-progress-bar>
+    </div>
+</div>
+<div class="centerDiv" *ngIf="notConnected">
+    <div class="notConnectedCard">
+        <p>Welcome to Matcha !</p>
+    </div>
+</div>

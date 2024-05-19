@@ -1,0 +1,92 @@
+<div class="chat-container">
+    <div class=" chat-list-matches-left" [ngClass]="{ 'hidden': !showMatches }">
+        <mat-card>
+            <mat-tab-group>
+                <mat-tab>
+                    <ng-template mat-tab-label class="matches">
+                        <mat-icon>people</mat-icon>
+                        <span>Matches</span>
+                    </ng-template>
+                    <mat-list>
+                        <div class="chat-list-matches-item" *ngFor="let user of users" (click)="selectUser(user)">
+                            <div class=" chat-list-match-icon">
+                                <img class="avatar" [src]="user.picture_1" alt="User Avatar">
+                            </div>
+                            <div class="badge" matBadgePosition="after" matBadgeOverlap="false"
+                                *ngIf="user.notificationCount" [matBadge]="user.notificationCount" matBadgeColor="warn"
+                                matBadgeSize="small">
+                                <div class="user-infos">
+                                    <p>{{ user.username }}</p>
+                                </div>
+                            </div>
+                            <div *ngIf="!user.notificationCount" class="user-infos">
+                                <p>{{ user.username }}</p>
+                            </div>
+                        </div>
+                    </mat-list>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card>
+    </div>
+    <div class="right">
+        <div class="chat-center-container">
+            <ng-container *ngIf="!selectedConversation">
+                <div class="empty-view">
+                    Please select a conversation.
+                </div>
+            </ng-container>
+            <ng-container *ngIf="selectedConversation">
+                <div class="user-banner">
+                    <div class="user-banner-left" (click)="viewProfile(selectedConversation)">
+                        <div class="user-avatar">
+                            <img [src]="selectedConversation.picture_1" alt="User Avatar">
+                        </div>
+                        <div class="user-info">
+                            <h3>{{ selectedConversation.first_name }} {{ selectedConversation.last_name }}</h3>
+                            <p>@{{ selectedConversation.username }}</p>
+                            <div class="user-status">
+                                <div class="dot"
+                                    [ngClass]="{'online': selectedConversation.status === 'Online', 'offline': selectedConversation.status === 'Offline'}">
+                                </div>
+                                <div class="status-text">
+                                    <p>{{ selectedConversation.status }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="user-banner-right">
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="reportUser(selectedConversation)">
+                                <mat-icon>shield</mat-icon>
+                                <span>Report user</span>
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
+                <div class="chat-messages" #chatMessagesContainer>
+                    <div *ngFor="let message of selectedConversationMessages" class="chat-message"
+                        [ngClass]="{ 'own-user': message.author_id !== selectedConversation.id, 'other-user': message.author_id === selectedConversation.id }">
+                        <div class="message-content">
+                            {{ message.message }}
+                        </div>
+                        <div class="message-date">
+                            {{ message.date | date: 'dd/MM/yyyy - HH:mm' }}
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="chat-input-container" *ngIf="selectedConversation" #inputContainer>
+                <mat-form-field class="chat-input">
+                    <input matInput #input placeholder="Type a message..." [(ngModel)]="message"
+                        (keyup.enter)="sendMessage(selectedConversation.id)">
+                </mat-form-field>
+                <button mat-icon-button (click)="sendMessage(selectedConversation.id)">
+                    <mat-icon>send</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
